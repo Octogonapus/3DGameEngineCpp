@@ -9,13 +9,25 @@ class CoreEngine;
 class ShadowInfo
 {
 public:
-	ShadowInfo(const Matrix4f& projection) :
-		m_projection(projection) {}
+	ShadowInfo(const Matrix4f& projection, bool flipFaces, float shadowSoftness = 1.0f, float lightBleedReductionAmt = 0.2f, float minVariance = 0.00002f) :
+		m_projection(projection),
+		m_flipFaces(flipFaces),
+		m_shadowSoftness(shadowSoftness),
+		m_lightBleedReductionAmt(lightBleedReductionAmt),
+		m_minVariance(minVariance) {}
 
 	inline Matrix4f GetProjection() { return m_projection; }
+	inline bool GetFlipFaces() { return m_flipFaces; }
+	inline float GetShadowSoftness() { return m_shadowSoftness; }
+	inline float GetLightBleedReductionAmt() { return m_lightBleedReductionAmt; }
+	inline float GetMinVariance() { return m_minVariance; }
 protected:
 private:
 	Matrix4f m_projection;
+	bool m_flipFaces;
+	float m_shadowSoftness;
+	float m_lightBleedReductionAmt;
+	float m_minVariance;
 };
 
 class BaseLight : public GameComponent
