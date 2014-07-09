@@ -53,8 +53,8 @@ void TestGame::Init()
 	testMesh1->AddChild(testMesh2);
 
 	AddToScene(planeObject);
-	AddToScene(pointLightObject);
-	AddToScene(spotLightObject);
+	//AddToScene(pointLightObject);
+	//AddToScene(spotLightObject);
 	AddToScene(directionalLightObject);
 	AddToScene(testMesh1);
 	testMesh2->AddChild((new GameObject())
