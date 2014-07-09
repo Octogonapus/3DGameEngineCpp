@@ -16,12 +16,21 @@ private:
 
 void TestGame::Init()
 {
+	GameObject* cameraObject = new GameObject();
 	GameObject* planeObject = new GameObject();
 	GameObject* pointLightObject = new GameObject();
 	GameObject* spotLightObject = new GameObject();
 	GameObject* directionalLightObject = new GameObject();
+	GameObject* testMesh1 = new GameObject();
+	GameObject* testMesh2 = new GameObject();
 
-	planeObject->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks.jpg"), 1, 8)));
+	cameraObject
+		->AddComponent(new Camera(Matrix4f().InitPerspective(ToRadians(70.0f), Window::GetAspect(), 0.1f, 1000.0f)))
+		->AddComponent(new FreeLook())
+		->AddComponent(new FreeMove(20.0f));
+
+	planeObject->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
+																								 new Texture("bricks2_normal.jpg"))));
 	planeObject->GetTransform().SetPos(Vector3f(0, -1, 5));
 	planeObject->GetTransform().SetScale(4.0f);
 	
@@ -31,33 +40,27 @@ void TestGame::Init()
 	spotLightObject->AddComponent(new SpotLight(Vector3f(0,1,1),0.4f,Attenuation(0,0,0.1f),0.7f));
 	spotLightObject->GetTransform().SetRot(Quaternion(Vector3f(0,1,0), ToRadians(90.0f)));
 	
-	directionalLightObject->AddComponent(new DirectionalLight(Vector3f(1,1,1), 0.4f));
+	directionalLightObject->AddComponent(new DirectionalLight(Vector3f(1, 1, 1), 0.4f));
 	
-	GameObject* testMesh1 = new GameObject();
-	GameObject* testMesh2 = new GameObject();
-	
-	testMesh1->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks.jpg"), 1, 8)));
-	testMesh2->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks.jpg"), 1, 8)));
+	testMesh1->AddComponent(new MeshRenderer(new Mesh("./res/models/monkey3.obj"), new Material(new Texture("bricks.jpg"), 1, 8,
+																								new Texture("bricks_normal.jpg"))));
+	testMesh2->AddComponent(new MeshRenderer(new Mesh("./res/models/monkey3.obj"), new Material(new Texture("bricks.jpg"), 1, 8,
+																								new Texture("bricks_normal.jpg"))));
 	
 	testMesh1->GetTransform().SetPos(Vector3f(0, 2, 0));
 	testMesh1->GetTransform().SetRot(Quaternion(Vector3f(0,1,0), 0.4f));
 	testMesh1->GetTransform().SetScale(1.0f);
-	
 	testMesh2->GetTransform().SetPos(Vector3f(0, 0, 25));
+	directionalLightObject->GetTransform().SetRot(Quaternion(Vector3f(1, 0, 0), ToRadians(-45)));
 	
 	testMesh1->AddChild(testMesh2);
-	
+
+	AddToScene(cameraObject);
 	AddToScene(planeObject);
 	AddToScene(pointLightObject);
 	AddToScene(spotLightObject);
 	AddToScene(directionalLightObject);
 	AddToScene(testMesh1);
-	testMesh2->AddChild((new GameObject())
-		->AddComponent(new Camera(Matrix4f().InitPerspective(ToRadians(70.0f), Window::GetAspect(), 0.1f, 1000.0f)))
-		->AddComponent(new FreeLook())
-		->AddComponent(new FreeMove()));
-	
-	directionalLightObject->GetTransform().SetRot(Quaternion(Vector3f(1,0,0), ToRadians(-45)));
 }
 
 int main()

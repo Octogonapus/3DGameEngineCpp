@@ -1,11 +1,13 @@
 #include "freeMove.h"
 
-FreeMove::FreeMove(float speed, int forwardKey, int backKey, int leftKey, int rightKey) :
-	m_speed(speed),
-	m_forwardKey(forwardKey),
-	m_backKey(backKey),
-	m_leftKey(leftKey),
-	m_rightKey(rightKey) {}
+FreeMove::FreeMove(float speed, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey) :
+m_speed(speed),
+m_forwardKey(forwardKey),
+m_backKey(backKey),
+m_leftKey(leftKey),
+m_rightKey(rightKey),
+m_upKey(upKey),
+m_downKey(downKey) {}
 	
 void FreeMove::Input(float delta)
 {
@@ -19,6 +21,10 @@ void FreeMove::Input(float delta)
 		Move(GetTransform().GetRot().GetLeft(), movAmt);
 	if(Input::GetKey(m_rightKey))
 		Move(GetTransform().GetRot().GetRight(), movAmt);
+	if (Input::GetKey(m_upKey))
+		Move(GetTransform().GetRot().GetUp(), movAmt);
+	if (Input::GetKey(m_downKey))
+		Move(GetTransform().GetRot().GetUp(), -movAmt);
 }
 
 void FreeMove::Move(const Vector3f& direction, float amt)
