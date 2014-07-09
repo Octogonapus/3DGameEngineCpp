@@ -22,9 +22,9 @@ void FreeMove::Input(float delta)
 	if(Input::GetKey(m_rightKey))
 		Move(GetTransform().GetRot().GetRight(), movAmt);
 	if (Input::GetKey(m_upKey))
-		Move(GetTransform().GetRot().GetUp(), movAmt);
+		Move(Vector3f(0, 1, 0), movAmt);
 	if (Input::GetKey(m_downKey))
-		Move(GetTransform().GetRot().GetUp(), -movAmt);
+		Move(Vector3f(0, 1, 0), -movAmt);
 }
 
 void FreeMove::Move(const Vector3f& direction, float amt)

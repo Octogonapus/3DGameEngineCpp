@@ -29,8 +29,9 @@ void TestGame::Init()
 		->AddComponent(new FreeLook())
 		->AddComponent(new FreeMove(20.0f));
 
-	planeObject->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
-																								 new Texture("bricks2_normal.jpg"))));
+	planeObject->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks.jpg"), 0.5f, 4,
+																								 new Texture("bricks_normal.jpg"),
+																								 new Texture("bricks_disp.png"), 0.03f, -0.5f)));
 	planeObject->GetTransform().SetPos(Vector3f(0, -1, 5));
 	planeObject->GetTransform().SetScale(4.0f);
 	
@@ -42,10 +43,12 @@ void TestGame::Init()
 	
 	directionalLightObject->AddComponent(new DirectionalLight(Vector3f(1, 1, 1), 0.4f));
 	
-	testMesh1->AddComponent(new MeshRenderer(new Mesh("./res/models/monkey3.obj"), new Material(new Texture("bricks.jpg"), 1, 8,
-																								new Texture("bricks_normal.jpg"))));
-	testMesh2->AddComponent(new MeshRenderer(new Mesh("./res/models/monkey3.obj"), new Material(new Texture("bricks.jpg"), 1, 8,
-																								new Texture("bricks_normal.jpg"))));
+	testMesh1->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
+																							   new Texture("bricks2_normal.jpg"),
+																							   new Texture("bricks2_disp.jpg"), 0.04f, -1.0f)));
+	testMesh2->AddComponent(new MeshRenderer(new Mesh("./res/models/plane3.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
+																							   new Texture("bricks2_normal.jpg"),
+																							   new Texture("bricks2_disp.jpg"), 0.04f, -1.0f)));
 	
 	testMesh1->GetTransform().SetPos(Vector3f(0, 2, 0));
 	testMesh1->GetTransform().SetRot(Quaternion(Vector3f(0,1,0), 0.4f));

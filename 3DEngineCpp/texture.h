@@ -12,8 +12,14 @@ public:
 	TextureData(GLenum textureTarget);
 	virtual ~TextureData();
 	
-	inline GLenum GetTextureTarget() { return m_textureTarget; }
-	inline GLuint GetTextureID() { return m_textureID; }
+	inline GLenum GetTextureTarget()
+	{
+		return m_textureTarget;
+	}
+	inline GLuint GetTextureID()
+	{
+		return m_textureID;
+	}
 protected:	
 private:
 	TextureData(TextureData& other) {}
