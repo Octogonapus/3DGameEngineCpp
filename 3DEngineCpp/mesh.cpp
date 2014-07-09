@@ -50,7 +50,7 @@ Mesh::Mesh(const std::string& fileName)
 		                                         aiProcess_Triangulate |
 		                                         aiProcess_GenSmoothNormals | 
 		                                         aiProcess_FlipUVs |
-												 aiProcess_CalcTangentSpace);
+		                                         aiProcess_CalcTangentSpace);
 		
 		if(!scene)
 		{
@@ -74,7 +74,7 @@ Mesh::Mesh(const std::string& fileName)
 			Vertex vert(Vector3f(pPos->x, pPos->y, pPos->z),
 					    Vector2f(pTexCoord->x, pTexCoord->y),
 					    Vector3f(pNormal->x, pNormal->y, pNormal->z),
-						Vector3f(pTangent->x, pTangent->y, pTangent->z));
+					    Vector3f(pTangent->x, pTangent->y, pTangent->z));
 			
 			vertices.push_back(vert);
 		}
@@ -130,7 +130,7 @@ void Mesh::Draw() const
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(Vector3f));
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(Vector3f) + sizeof(Vector2f)));
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(Vector3f) + sizeof(Vector2f) + sizeof(Vector3f)));
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(Vector3f) + sizeof(Vector2f) + sizeof(Vector3f)));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_meshData->GetIBO());
 	glDrawElements(GL_TRIANGLES, m_meshData->GetSize(), GL_UNSIGNED_INT, 0);

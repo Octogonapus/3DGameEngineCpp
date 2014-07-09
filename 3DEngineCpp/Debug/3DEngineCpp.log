@@ -1,8 +1,12 @@
-﻿Build started 7/8/2014 11:54:42 PM.
+﻿Build started 7/9/2014 2:00:33 AM.
      1>Project "C:\Users\Ryan\3DGameEngineCpp\3DEngineCpp\3DEngineCpp.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt freeMove.cpp main.cpp
+         freeMove.cpp
+         Generating Code...
+         Compiling...
          main.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ryan\3DGameEngineCpp\Debug\3DEngineCpp.exe" /INCREMENTAL /NOLOGO /LIBPATH:.\lib SDL2.lib SDL2main.lib opengl32.lib glu32.lib glew32.lib glew32mx.lib glew32mxs.lib glew32s.lib assimp.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Ryan\3DGameEngineCpp\Debug\3DEngineCpp.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ryan\3DGameEngineCpp\Debug\3DEngineCpp.lib" /MACHINE:X86 Debug\camera.obj
          Debug\coreEngine.obj
@@ -30,4 +34,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.87
+Time Elapsed 00:00:01.13
