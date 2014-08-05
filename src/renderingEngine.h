@@ -1,5 +1,5 @@
-#ifndef RENDERINGENGINE_H
-#define RENDERINGENGINE_H
+#ifndef RENDERINGENGINE_H_INCLUDED
+#define RENDERINGENGINE_H_INCLUDED
 
 #include "camera.h"
 #include "lighting.h"

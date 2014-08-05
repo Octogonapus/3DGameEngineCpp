@@ -1,5 +1,5 @@
-#ifndef MYGAME_H
-#define MYGAME_H
+#ifndef GAME_H_INCLUDED
+#define GAME_H_INCLUDED
 
 #include "entity.h"
 #include "coreEngine.h"

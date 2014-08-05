@@ -1,5 +1,5 @@
-#ifndef TIME_H
-#define TIME_H
+#ifndef TIME_H_INCLUDED
+#define TIME_H_INCLUDED
 
 namespace Time
 {

@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef UTIL_H_INCLUDED
+#define UTIL_H_INCLUDED
 
 #ifndef WIN32
 #include <unistd.h>

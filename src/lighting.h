@@ -1,5 +1,5 @@
-#ifndef LIGHTING_H
-#define LIGHTING_H
+#ifndef LIGHTING_H_INCLUDED
+#define LIGHTING_H_INCLUDED
 
 #include "math3d.h"
 #include "entityComponent.h"

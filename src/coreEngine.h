@@ -1,5 +1,5 @@
-#ifndef COREENGINE_H
-#define COREENGINE_H
+#ifndef COREENGINE_H_INCLUDED
+#define COREENGINE_H_INCLUDED
 
 #include "renderingEngine.h"
 #include <string>

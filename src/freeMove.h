@@ -1,5 +1,5 @@
-#ifndef FREEMOVE_H
-#define FREEMOVE_H
+#ifndef FREEMOVE_H_INCLUDED
+#define FREEMOVE_H_INCLUDED
 
 #include "math3d.h"
 #include "entityComponent.h"

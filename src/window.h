@@ -1,5 +1,5 @@
-#ifndef GAMEWINDOW_H
-#define GAMEWINDOW_H
+#ifndef WINDOW_H_INCLUDED
+#define WINDOW_H_INCLUDED
 
 #include <SDL2/SDL.h>
 #include <string>

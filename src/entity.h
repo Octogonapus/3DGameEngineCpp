@@ -1,5 +1,5 @@
-#ifndef ENTITYOBJECT_H
-#define ENTITYOBJECT_H
+#ifndef ENTITYOBJECT_H_INCLUDED
+#define ENTITYOBJECT_H_INCLUDED
 
 #include <vector>
 #include "transform.h"

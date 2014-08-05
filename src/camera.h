@@ -1,5 +1,5 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef CAMERA_H_INCLUDED
+#define CAMERA_H_INCLUDED
 
 #include "math3d.h"
 #include "entityComponent.h"

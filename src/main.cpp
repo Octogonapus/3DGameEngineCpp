@@ -8,6 +8,7 @@ public:
 	TestGame() {}
 	
 	virtual void Init(const Window& window);
+	void Update(float delta);
 protected:
 private:
 	TestGame(const TestGame& other) {}
@@ -28,7 +29,7 @@ void TestGame::Init(const Window& window)
 		square.AddFace(0, 1, 2); square.AddFace(2, 1, 3);
 	}
 	Mesh customMesh("square", square.Finalize());
-	
+
 	AddToScene((new Entity(Vector3f(0, -1, 5), Quaternion(), 32.0f))
 		->AddComponent(new MeshRenderer(Mesh("terrain02.obj"), Material("bricks"))));
 		
@@ -57,14 +58,36 @@ void TestGame::Init(const Window& window)
 		->AddComponent(new MeshRenderer(Mesh("square"), Material("bricks2"))));
 }
 
+#include "boundingSphere.h"
+#include <iostream>
+
 int main()
 {
-	TestGame game;
-	Window window(800, 600, "3D Game Engine");
-	RenderingEngine renderer(window);
-	
-	CoreEngine engine(60, &window, &renderer, &game);
-	engine.Start();
+	BoundingSphere sphere1(Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+	BoundingSphere sphere2(Vector3f(0.0f, 3.0f, 0.0f), 1.0f);
+	BoundingSphere sphere3(Vector3f(0.0f, 0.0f, 2.0f), 1.0f);
+	BoundingSphere sphere4(Vector3f(1.0f, 0.0f, 0.0f), 1.0f);
+
+	IntersectData sphere1IntersectSphere2 = sphere1.IntersectBoundingSphere(sphere2);
+	IntersectData sphere1IntersectSphere3 = sphere1.IntersectBoundingSphere(sphere3);
+	IntersectData sphere1IntersectSphere4 = sphere1.IntersectBoundingSphere(sphere4);
+
+	std::cout << "Sphere 1 intersect Sphere 2: " << sphere1IntersectSphere2.GetDoesIntersect()
+			  << ", Distance: " << sphere1IntersectSphere2.GetDistance() << std::endl;
+	std::cout << "Sphere 1 intersect Sphere 3: " << sphere1IntersectSphere3.GetDoesIntersect()
+			  << ", Distance: " << sphere1IntersectSphere3.GetDistance() << std::endl;
+	std::cout << "Sphere 1 intersect Sphere 4: " << sphere1IntersectSphere4.GetDoesIntersect()
+			  << ", Distance: " << sphere1IntersectSphere4.GetDistance() << std::endl;
+
+	//Keep cmd alive
+	std::getchar();
+
+	//TestGame game;
+	//Window window(800, 600, "3d game engine");
+	//RenderingEngine renderer(window);
+	//
+	//CoreEngine engine(60, &window, &renderer, &game);
+	//engine.Start();
 	
 	return 0;
 }

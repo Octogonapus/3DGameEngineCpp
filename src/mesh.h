@@ -1,5 +1,5 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef MESH_H_INCLUDED
+#define MESH_H_INCLUDED
 
 #include "math3d.h"
 #include "referenceCounter.h"

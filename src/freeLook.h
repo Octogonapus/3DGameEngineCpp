@@ -1,5 +1,5 @@
-#ifndef FREELOOK_H
-#define FREELOOK_H
+#ifndef FREELOOK_H_INCLUDED
+#define FREELOOK_H_INCLUDED
 
 #include "math3d.h"
 #include "entityComponent.h"

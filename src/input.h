@@ -1,5 +1,5 @@
-#ifndef MYINPUT_H
-#define MYINPUT_H
+#ifndef INPUT_H_INCLUDED
+#define INPUT_H_INCLUDED
 #include "math3d.h"
 
 class Window;

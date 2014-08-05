@@ -1,5 +1,5 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef SHADER_H_INCLUDED
+#define SHADER_H_INCLUDED
 
 #include <map>
 #include <vector>

@@ -1,5 +1,5 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef TEXTURE_H_INCLUDED
+#define TEXTURE_H_INCLUDED
 
 #include "referenceCounter.h"
 #include <GL/glew.h>
