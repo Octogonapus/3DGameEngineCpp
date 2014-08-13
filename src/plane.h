@@ -17,6 +17,8 @@ public:
 
 	inline const Vector3f& GetNormal() const { return m_normal; }
 	inline float GetDistance() const { return m_distance; }
+
+	static void Test();
 protected:
 private:
 	const Vector3f m_normal;

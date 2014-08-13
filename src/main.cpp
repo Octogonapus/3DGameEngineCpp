@@ -1,6 +1,10 @@
 #include "3DEngine.h"
+#include "testing.h"
+
 #include "freeLook.h"
 #include "freeMove.h"
+#include "physicsEngineComponent.h"
+#include "physicsObjectComponent.h"
 
 class TestGame : public Game
 {
@@ -30,14 +34,14 @@ void TestGame::Init(const Window& window)
 	}
 	Mesh customMesh("square", square.Finalize());
 
-	AddToScene((new Entity(Vector3f(0, -1, 5), Quaternion(), 32.0f))
-		->AddComponent(new MeshRenderer(Mesh("terrain02.obj"), Material("bricks"))));
-		
-	AddToScene((new Entity(Vector3f(7,0,7)))
-		->AddComponent(new PointLight(Vector3f(0,1,0), 0.4f, Attenuation(0,0,1))));
-	
-	AddToScene((new Entity(Vector3f(20,-11.0f,5), Quaternion(Vector3f(1,0,0), ToRadians(-60.0f)) * Quaternion(Vector3f(0,1,0), ToRadians(90.0f))))
-		->AddComponent(new SpotLight(Vector3f(0,1,1), 0.4f, Attenuation(0,0,0.02f), ToRadians(91.1f), 7, 1.0f, 0.5f)));
+	//AddToScene((new Entity(Vector3f(0, -1, 5), Quaternion(), 32.0f))
+	//	->AddComponent(new MeshRenderer(Mesh("terrain02.obj"), Material("bricks"))));
+	//	
+	//AddToScene((new Entity(Vector3f(7,0,7)))
+	//	->AddComponent(new PointLight(Vector3f(0,1,0), 0.4f, Attenuation(0,0,1))));
+	//
+	//AddToScene((new Entity(Vector3f(20,-11.0f,5), Quaternion(Vector3f(1,0,0), ToRadians(-60.0f)) * Quaternion(Vector3f(0,1,0), ToRadians(90.0f))))
+	//	->AddComponent(new SpotLight(Vector3f(0,1,1), 0.4f, Attenuation(0,0,0.02f), ToRadians(91.1f), 7, 1.0f, 0.5f)));
 	
 	AddToScene((new Entity(Vector3f(), Quaternion(Vector3f(1,0,0), ToRadians(-45))))
 		->AddComponent(new DirectionalLight(Vector3f(1,1,1), 0.4f, 10, 80.0f, 1.0f)));
@@ -51,92 +55,50 @@ void TestGame::Init(const Window& window)
 				->AddComponent(new FreeLook(window.GetCenter(), 0.15f))
 				->AddComponent(new FreeMove(15.0f)))));
 	
-	AddToScene((new Entity(Vector3f(24,-12,5), Quaternion(Vector3f(0,1,0), ToRadians(30.0f))))
-		->AddComponent(new MeshRenderer(Mesh("cube.obj"), Material("bricks2"))));
-		
-	AddToScene((new Entity(Vector3f(0,0,7), Quaternion(), 1.0f))
-		->AddComponent(new MeshRenderer(Mesh("square"), Material("bricks2"))));
-}
+	//AddToScene((new Entity(Vector3f(24,-12,5), Quaternion(Vector3f(0,1,0), ToRadians(30.0f))))
+	//	->AddComponent(new MeshRenderer(Mesh("cube.obj"), Material("bricks2"))));
+	//	
+	//AddToScene((new Entity(Vector3f(0,0,7), Quaternion(), 1.0f))
+	//	->AddComponent(new MeshRenderer(Mesh("square"), Material("bricks2"))));
 
-#include "boundingSphere.h"
-#include "aabb.h"
-#include "plane.h"
-#include <iostream>
+	//<Temporary>
+	PhysicsEngine physicsEngine;
+	
+	physicsEngine.AddObject(PhysicsObject(
+			Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 0.0f)));
+
+	physicsEngine.AddObject(PhysicsObject(
+			Vector3f(20.0f, 30.0f, -9.0f), Vector3f(-0.8f, -0.9f, 0.7f))); 
+
+
+	PhysicsEngineComponent* physicsEngineComponent 
+		= new PhysicsEngineComponent(physicsEngine);
+
+	for(unsigned int i = 0; 
+		i < physicsEngineComponent->GetPhysicsEngine().GetNumObjects(); 
+		i++)
+	{
+		AddToScene((new Entity())
+			->AddComponent(new PhysicsObjectComponent(
+					&physicsEngineComponent->GetPhysicsEngine().GetObject(i)))
+			->AddComponent(new MeshRenderer(Mesh("sphere.obj"), Material("bricks"))));
+	}
+
+	AddToScene((new Entity())
+		->AddComponent(physicsEngineComponent));
+	//</Temporary>
+}
 
 int main()
 {
-	BoundingSphere sphere1(Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-	BoundingSphere sphere2(Vector3f(0.0f, 3.0f, 0.0f), 1.0f);
-	BoundingSphere sphere3(Vector3f(0.0f, 0.0f, 2.0f), 1.0f);
-	BoundingSphere sphere4(Vector3f(1.0f, 0.0f, 0.0f), 1.0f);
+	Testing::RunAllTests();
+
+	TestGame game;
+	Window window(800, 600, "3d game engine");
+	RenderingEngine renderer(window);
 	
-	IntersectData sphere1IntersectSphere2 = sphere1.IntersectBoundingSphere(sphere2);
-	IntersectData sphere1IntersectSphere3 = sphere1.IntersectBoundingSphere(sphere3);
-	IntersectData sphere1IntersectSphere4 = sphere1.IntersectBoundingSphere(sphere4);
-	
-	std::cout << "Sphere1 intersect Sphere2: " << sphere1IntersectSphere2.GetDoesIntersect() 
-	          << ", Distance: "                << sphere1IntersectSphere2.GetDistance() << std::endl;
-	std::cout << "Sphere1 intersect Sphere3: " << sphere1IntersectSphere3.GetDoesIntersect() 
-	          << ", Distance: "                << sphere1IntersectSphere3.GetDistance() << std::endl;
-	std::cout << "Sphere1 intersect Sphere4: " << sphere1IntersectSphere4.GetDoesIntersect() 
-	          << ", Distance: "                << sphere1IntersectSphere4.GetDistance() << std::endl;
-
-	std::cout << std::endl;
-
-	AABB aabb1(Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
-	AABB aabb2(Vector3f(1.0f, 1.0f, 1.0f), Vector3f(2.0f, 2.0f, 2.0f));
-	AABB aabb3(Vector3f(1.0f, 0.0f, 0.0f), Vector3f(2.0f, 1.0f, 1.0f));
-	AABB aabb4(Vector3f(0.0f, 0.0f, -2.0f), Vector3f(1.0f, 1.0f, -1.0f));
-	AABB aabb5(Vector3f(0.0f, 0.5f, 0.0f), Vector3f(1.0f, 1.5f, 1.0f));
-
-	IntersectData aabb1Intersectaabb2 = aabb1.IntersectAABB(aabb2);
-	IntersectData aabb1Intersectaabb3 = aabb1.IntersectAABB(aabb3);
-	IntersectData aabb1Intersectaabb4 = aabb1.IntersectAABB(aabb4);
-	IntersectData aabb1Intersectaabb5 = aabb1.IntersectAABB(aabb5);
-
-	std::cout << "AABB1 intersect AABB2: " << aabb1Intersectaabb2.GetDoesIntersect() 
-	          << ", Distance: "            << aabb1Intersectaabb2.GetDistance() << std::endl;
-
-	std::cout << "AABB1 intersect AABB3: " << aabb1Intersectaabb3.GetDoesIntersect() 
-	          << ", Distance: "            << aabb1Intersectaabb3.GetDistance() << std::endl;
-
-	std::cout << "AABB1 intersect AABB4: " << aabb1Intersectaabb4.GetDoesIntersect() 
-	          << ", Distance: "            << aabb1Intersectaabb4.GetDistance() << std::endl;
-
-	std::cout << "AABB1 intersect AABB5: " << aabb1Intersectaabb5.GetDoesIntersect() 
-	          << ", Distance: "            << aabb1Intersectaabb5.GetDistance() << std::endl;
-
-
-	std::cout << std::endl;
-
-	Plane plane1(Vector3f(0.0f, 1.0f, 0.0f), 0.0f);
-	
-	IntersectData plane1IntersectSphere1 = plane1.IntersectSphere(sphere1);
-	IntersectData plane1IntersectSphere2 = plane1.IntersectSphere(sphere2);
-	IntersectData plane1IntersectSphere3 = plane1.IntersectSphere(sphere3);
-	IntersectData plane1IntersectSphere4 = plane1.IntersectSphere(sphere4);
-
-	std::cout << "Plane1 intersect Sphere1: " << plane1IntersectSphere1.GetDoesIntersect() 
-	          << ", Distance: "               << plane1IntersectSphere1.GetDistance() << std::endl;
-	
-	std::cout << "Plane1 intersect Sphere2: " << plane1IntersectSphere2.GetDoesIntersect() 
-	          << ", Distance: "               << plane1IntersectSphere2.GetDistance() << std::endl;
-	
-	std::cout << "Plane1 intersect Sphere3: " << plane1IntersectSphere3.GetDoesIntersect() 
-	          << ", Distance: "               << plane1IntersectSphere3.GetDistance() << std::endl;
-	
-	std::cout << "Plane1 intersect Sphere4: " << plane1IntersectSphere4.GetDoesIntersect() 
-	          << ", Distance: "               << plane1IntersectSphere4.GetDistance() << std::endl;
-
-	//Keep cmd alive
-	std::getchar();
-
-	//TestGame game;
-	//Window window(800, 600, "3d game engine");
-	//RenderingEngine renderer(window);
-	//
-	//CoreEngine engine(60, &window, &renderer, &game);
-	//engine.Start();
+	CoreEngine engine(60, &window, &renderer, &game);
+	engine.Start();
 	
 	return 0;
 }

@@ -15,6 +15,8 @@ public:
 
 	inline const Vector3f& GetCenter() const { return m_center; }
 	inline float GetRadius() const { return m_radius; }
+
+	static void Test();
 protected:
 private:
 	const Vector3f m_center;
