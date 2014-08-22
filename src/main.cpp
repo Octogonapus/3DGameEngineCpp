@@ -5,6 +5,7 @@
 #include "freeMove.h"
 #include "physicsEngineComponent.h"
 #include "physicsObjectComponent.h"
+#include "boundingSphere.h"
 
 class TestGame : public Game
 {
@@ -64,11 +65,11 @@ void TestGame::Init(const Window& window)
 	//<Temporary>
 	PhysicsEngine physicsEngine;
 	
-	physicsEngine.AddObject(PhysicsObject(
-			Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 0.0f)));
+	physicsEngine.AddObject(PhysicsObject(new BoundingSphere(Vector3f(0.0f, 0.0f, 0.0f), 1.0f),
+		Vector3f(0.0f, 0.0f, 1.0f)));
 
-	physicsEngine.AddObject(PhysicsObject(
-			Vector3f(20.0f, 30.0f, -9.0f), Vector3f(-0.8f, -0.9f, 0.7f))); 
+	physicsEngine.AddObject(PhysicsObject(new BoundingSphere(Vector3f(0.0f, 0.0f, 10.0f), 1.0f),
+		Vector3f(0.0f, 0.0f, -1.0f)));
 
 
 	PhysicsEngineComponent* physicsEngineComponent 
@@ -78,7 +79,7 @@ void TestGame::Init(const Window& window)
 		i < physicsEngineComponent->GetPhysicsEngine().GetNumObjects(); 
 		i++)
 	{
-		AddToScene((new Entity())
+		AddToScene((new Entity(Vector3f(0,0,0), Quaternion(), 1.0f))
 			->AddComponent(new PhysicsObjectComponent(
 					&physicsEngineComponent->GetPhysicsEngine().GetObject(i)))
 			->AddComponent(new MeshRenderer(Mesh("sphere.obj"), Material("bricks"))));
