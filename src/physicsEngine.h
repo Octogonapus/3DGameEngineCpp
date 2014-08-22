@@ -11,7 +11,6 @@ public:
 
 	void AddObject(const PhysicsObject& object);
 	void Simulate(float delta);
-	void HandleCollisions();
 
 	//Temporary accessors
 	inline const PhysicsObject& GetObject(unsigned int index) const { return m_objects[index]; }
