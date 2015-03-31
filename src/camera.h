@@ -2,7 +2,7 @@
 #define CAMERA_H_INCLUDED
 
 #include "math3d.h"
-#include "entityComponent.h"
+#include "modifier.h"
 
 class Camera
 {
@@ -32,7 +32,7 @@ private:
 
 //CameraComponents are an easy way to use a camera as a component
 //on a game object.
-class CameraComponent : public EntityComponent
+class CameraComponent : public Modifier
 {
 public:
 	//The camera's transform is initialized to 0 (null) because

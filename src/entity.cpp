@@ -1,14 +1,14 @@
 #include "entity.h"
-#include "entityComponent.h"
+#include "modifier.h"
 #include "coreEngine.h"
 
 Entity::~Entity()
 {
-	for(unsigned int i = 0; i < m_components.size(); i++)
+	for(unsigned int i = 0; i < m_modifiers.size(); i++)
 	{
-		if(m_components[i])
+		if(m_modifiers[i])
 		{	
-			delete m_components[i];
+			delete m_modifiers[i];
 		}
 	}
 	
@@ -29,10 +29,10 @@ Entity* Entity::AddChild(Entity* child)
 	return this;
 }
 
-Entity* Entity::AddComponent(EntityComponent* component)
+Entity* Entity::AddModifier(Modifier* modifier)
 {
-	m_components.push_back(component);
-	component->SetParent(this);
+	m_modifiers.push_back(modifier);
+	modifier->SetParent(this);
 	return this;
 }
 
@@ -70,25 +70,25 @@ void Entity::ProcessInput(const Input& input, float delta)
 {
 	m_transform.Update();
 
-	for(unsigned int i = 0; i < m_components.size(); i++)
+	for(unsigned int i = 0; i < m_modifiers.size(); i++)
 	{
-		m_components[i]->ProcessInput(input, delta);
+		m_modifiers[i]->ProcessInput(input, delta);
 	}
 }
 
 void Entity::Update(float delta)
 {
-	for(unsigned int i = 0; i < m_components.size(); i++)
+	for(unsigned int i = 0; i < m_modifiers.size(); i++)
 	{
-		m_components[i]->Update(delta);
+		m_modifiers[i]->Update(delta);
 	}
 }
 
 void Entity::Render(const Shader& shader, const RenderingEngine& renderingEngine, const Camera& camera) const
 {
-	for(unsigned int i = 0; i < m_components.size(); i++)
+	for(unsigned int i = 0; i < m_modifiers.size(); i++)
 	{
-		m_components[i]->Render(shader, renderingEngine, camera);
+		m_modifiers[i]->Render(shader, renderingEngine, camera);
 	}
 }
 
@@ -98,9 +98,9 @@ void Entity::SetEngine(CoreEngine* engine)
 	{
 		m_coreEngine = engine;
 		
-		for(unsigned int i = 0; i < m_components.size(); i++)
+		for(unsigned int i = 0; i < m_modifiers.size(); i++)
 		{
-			m_components[i]->AddToEngine(engine);
+			m_modifiers[i]->AddToEngine(engine);
 		}
 
 		for(unsigned int i = 0; i < m_children.size(); i++)

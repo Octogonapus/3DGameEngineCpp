@@ -6,7 +6,7 @@
 #include "input.h"
 class Camera;
 class CoreEngine;
-class EntityComponent;
+class Modifier;
 class Shader;
 class RenderingEngine;
 
@@ -20,7 +20,7 @@ public:
 	virtual ~Entity();
 	
 	Entity* AddChild(Entity* child);
-	Entity* AddComponent(EntityComponent* component);
+	Entity* AddModifier(Modifier* component);
 	
 	void ProcessInputAll(const Input& input, float delta);
 	void UpdateAll(float delta);
@@ -33,7 +33,7 @@ public:
 protected:
 private:
 	std::vector<Entity*>          m_children;
-	std::vector<EntityComponent*> m_components;
+	std::vector<Modifier*>        m_modifiers;
 	Transform                     m_transform;
 	CoreEngine*                   m_coreEngine;
 

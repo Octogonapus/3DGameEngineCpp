@@ -25,7 +25,7 @@ void CameraComponent::AddToEngine(CoreEngine* engine) const
 
 void CameraComponent::SetParent(Entity* parent)
 {
-	EntityComponent::SetParent(parent);
+	Modifier::SetParent(parent);
 	
 	//The camera's transform is initialized here because this is the first point where
 	//there is a parent object with a transform.

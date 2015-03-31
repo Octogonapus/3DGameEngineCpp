@@ -3,8 +3,10 @@
 
 #include "freeLook.h"
 #include "freeMove.h"
-#include "physicsEngineComponent.h"
-#include "physicsObjectComponent.h"
+#include "repetitiveLinearMotionModifier.h"
+#include "repetitiveRotationalMotionModifier.h"
+#include "physicsEngineModifier.h"
+#include "physicsObjectModifier.h"
 #include "boundingSphere.h"
 
 class TestGame : public Game
@@ -22,9 +24,11 @@ private:
 
 void TestGame::Init(const Window& window)
 {
+	//Materials
 	Material bricks("bricks", Texture("bricks.jpg"), 0.0f, 0, Texture("bricks_normal.jpg"), Texture("bricks_disp.png"), 0.03f, -0.5f);
 	Material bricks2("bricks2", Texture("bricks2.jpg"), 0.0f, 0, Texture("bricks2_normal.png"), Texture("bricks2_disp.jpg"), 0.04f, -1.0f);
 
+	//Standard square mesh (1x1)
 	IndexedModel square;
 	{
 		square.AddVertex(1.0f, -1.0f, 0.0f);  square.AddTexCoord(Vector2f(1.0f, 1.0f));
@@ -34,60 +38,38 @@ void TestGame::Init(const Window& window)
 		square.AddFace(0, 1, 2); square.AddFace(2, 1, 3);
 	}
 	Mesh customMesh("square", square.Finalize());
-
-	//AddToScene((new Entity(Vector3f(0, -1, 5), Quaternion(), 32.0f))
-	//	->AddComponent(new MeshRenderer(Mesh("terrain02.obj"), Material("bricks"))));
-	//	
-	//AddToScene((new Entity(Vector3f(7,0,7)))
-	//	->AddComponent(new PointLight(Vector3f(0,1,0), 0.4f, Attenuation(0,0,1))));
-	//
-	//AddToScene((new Entity(Vector3f(20,-11.0f,5), Quaternion(Vector3f(1,0,0), ToRadians(-60.0f)) * Quaternion(Vector3f(0,1,0), ToRadians(90.0f))))
-	//	->AddComponent(new SpotLight(Vector3f(0,1,1), 0.4f, Attenuation(0,0,0.02f), ToRadians(91.1f), 7, 1.0f, 0.5f)));
 	
-	AddToScene((new Entity(Vector3f(), Quaternion(Vector3f(1,0,0), ToRadians(-45))))
-		->AddComponent(new DirectionalLight(Vector3f(1,1,1), 0.4f, 10, 80.0f, 1.0f)));
-	
-	AddToScene((new Entity(Vector3f(0, 2, 0), Quaternion(Vector3f(0,1,0), 0.4f), 1.0f))
-		->AddComponent(new MeshRenderer(Mesh("plane3.obj"), Material("bricks2")))
-		->AddChild((new Entity(Vector3f(0, 0, 25)))
-			->AddComponent(new MeshRenderer(Mesh("plane3.obj"), Material("bricks2")))
-			->AddChild((new Entity())
-				->AddComponent(new CameraComponent(Matrix4f().InitPerspective(ToRadians(70.0f), window.GetAspect(), 0.1f, 1000.0f)))
-				->AddComponent(new FreeLook(window.GetCenter(), 0.15f))
-				->AddComponent(new FreeMove(15.0f)))));
-	
-	//AddToScene((new Entity(Vector3f(24,-12,5), Quaternion(Vector3f(0,1,0), ToRadians(30.0f))))
-	//	->AddComponent(new MeshRenderer(Mesh("cube.obj"), Material("bricks2"))));
-	//	
-	//AddToScene((new Entity(Vector3f(0,0,7), Quaternion(), 1.0f))
-	//	->AddComponent(new MeshRenderer(Mesh("square"), Material("bricks2"))));
+	//Light
+	Entity* mainLight = new Entity(Vector3f(0, 4, 0), Quaternion(Vector3f(1, 0, 0), ToRadians(270)), 1.0f);
+	Entity* pointLight = new Entity(Vector3f(-1, 1.5, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1.0f);
 
-	//<Temporary>
-	PhysicsEngine physicsEngine;
-	
-	physicsEngine.AddObject(PhysicsObject(new BoundingSphere(Vector3f(0.0f, 0.0f, 0.0f), 1.0f),
-		Vector3f(0.0f, 0.0f, 1.0f)));
+	mainLight->AddModifier(new DirectionalLight(Vector3f(1, 1, 1), 0.4f, 10, 80.0f, 1.0f));
+	pointLight->AddModifier(new PointLight(Vector3f(0, 0, 1), 0.2f, Attenuation(0, 0, 1)));
+	pointLight->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(1, 0, 0), 0.015f, 1.0f));
 
-	physicsEngine.AddObject(PhysicsObject(new BoundingSphere(Vector3f(0.0f, 0.0f, 10.0f), 1.0f),
-		Vector3f(0.0f, 0.0f, -1.0f)));
+	//AddToScene(mainLight);
+	AddToScene(pointLight);
 
+	//Camera
+	Entity* mainCamera = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), 1), 1.0f);
 
-	PhysicsEngineComponent* physicsEngineComponent 
-		= new PhysicsEngineComponent(physicsEngine);
+	mainCamera->AddModifier(new CameraComponent(Matrix4f().InitPerspective(ToRadians(70.0f), window.GetAspect(), 0.1f, 1000.0f)));
+	mainCamera->AddModifier(new FreeLook(window.GetCenter(), 0.15f));
+	mainCamera->AddModifier(new FreeMove(5.0f));
 
-	for(unsigned int i = 0; 
-		i < physicsEngineComponent->GetPhysicsEngine().GetNumObjects(); 
-		i++)
-	{
-		AddToScene((new Entity(Vector3f(0,0,0), Quaternion(), 1.0f))
-			->AddComponent(new PhysicsObjectComponent(
-					&physicsEngineComponent->GetPhysicsEngine().GetObject(i)))
-			->AddComponent(new MeshRenderer(Mesh("sphere.obj"), Material("bricks"))));
-	}
+	AddToScene(mainCamera);
 
-	AddToScene((new Entity())
-		->AddComponent(physicsEngineComponent));
-	//</Temporary>
+	//Environment
+	Entity* floorPlane = new Entity(Vector3f(0, 0, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1.0f);
+	Entity* ceilingPlane = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 0.3f);
+
+	floorPlane->AddModifier(new MeshRenderer(Mesh("plane.obj"), Material("bricks")));
+	ceilingPlane->AddModifier(new MeshRenderer(Mesh("cube.obj"), Material("bricks2")));
+	//ceilingPlane->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(0, 1, 0), 0.01f, 2.0f));
+	//ceilingPlane->AddModifier(new RepetitiveRotationalMotionModifier(Vector3f(0, 1, 0), 0.02f, 1.0f, false));
+
+	AddToScene(floorPlane);
+	AddToScene(ceilingPlane);
 }
 
 int main()

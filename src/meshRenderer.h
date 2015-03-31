@@ -1,10 +1,10 @@
 #ifndef MESHRENDERER_H_INCLUDED
 #define MESHRENDERER_H_INCLUDED
 
-#include "entityComponent.h"
+#include "modifier.h"
 #include "mesh.h"
 
-class MeshRenderer : public EntityComponent
+class MeshRenderer : public Modifier
 {
 public:
 	MeshRenderer(const Mesh& mesh, const Material& material) :

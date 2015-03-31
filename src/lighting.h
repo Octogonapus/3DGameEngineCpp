@@ -2,7 +2,7 @@
 #define LIGHTING_H_INCLUDED
 
 #include "math3d.h"
-#include "entityComponent.h"
+#include "modifier.h"
 #include "shader.h"
 
 class CoreEngine;
@@ -48,7 +48,7 @@ private:
 	float m_minVariance;
 };
 
-class BaseLight : public EntityComponent
+class BaseLight : public Modifier
 {
 public:
 	BaseLight(const Vector3f& color, float intensity, const Shader& shader) :

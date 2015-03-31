@@ -69,6 +69,11 @@ public:
 	inline Vector<T,D> Normalized() const { return *this/Length(); }
 	inline Vector<T,D> Lerp(const Vector<T,D>& r, T lerpFactor) const { return (r - *this) * lerpFactor + *this; }
 
+	inline Vector<T,D> Reflect(const Vector<T,D>& normal) const
+	{
+		return *this - (normal * (this->Dot(normal) * 2));
+	}
+
 	inline Vector<T, D> operator+(const Vector<T,D>& r) const
 	{
 		Vector<T, D> result;

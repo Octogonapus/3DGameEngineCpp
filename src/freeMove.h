@@ -2,9 +2,9 @@
 #define FREEMOVE_H_INCLUDED
 
 #include "math3d.h"
-#include "entityComponent.h"
+#include "modifier.h"
 
-class FreeMove : public EntityComponent
+class FreeMove : public Modifier
 {
 public:
 	FreeMove(float speed = 10.0f, int forwardKey = Input::KEY_W, int backKey = Input::KEY_S, int leftKey = Input::KEY_A, int rightKey = Input::KEY_D, int upKey = Input::KEY_Z, int downKey = Input::KEY_X)  :

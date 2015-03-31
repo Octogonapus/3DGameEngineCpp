@@ -4,9 +4,13 @@
 IntersectData BoundingSphere::IntersectBoundingSphere(const BoundingSphere& other)
 {
 	float radiusDistance = m_radius + other.m_radius;
-	float centerDistance = (other.m_center - m_center).Length();
+	Vector3f direction = other.m_center - m_center;
+	float centerDistance = direction.Length();
+	direction /= centerDistance;
 
-	return IntersectData(centerDistance < radiusDistance, centerDistance - radiusDistance);
+	float distance = centerDistance - radiusDistance;
+
+	return IntersectData(distance < 0, direction * distance);
 }
 
 void BoundingSphere::Transform(const Vector3f& translation)
@@ -26,11 +30,11 @@ void BoundingSphere::Test()
 	IntersectData sphere1IntersectSphere4 = sphere1.IntersectBoundingSphere(sphere4);
 
 	assert(sphere1IntersectSphere2.GetDoesIntersect() == false);
-	assert(sphere1IntersectSphere2.GetDistance() == 1);
+	assert(sphere1IntersectSphere2.GetDistance() == 1.0f);
 
 	assert(sphere1IntersectSphere3.GetDoesIntersect() == false);
-	assert(sphere1IntersectSphere3.GetDistance() == 0);
+	assert(sphere1IntersectSphere3.GetDistance() == 0.0f);
 
 	assert(sphere1IntersectSphere4.GetDoesIntersect() == true);
-	assert(sphere1IntersectSphere4.GetDistance() == -1);
+	assert(sphere1IntersectSphere4.GetDistance() == 1.0f);
 }
