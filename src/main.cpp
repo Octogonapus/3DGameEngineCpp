@@ -42,34 +42,34 @@ void TestGame::Init(const Window& window)
 	Mesh customMesh("square", square.Finalize());
 
 	//Light
-	Entity* mainLight = new Entity(Vector3f(0, 4, 0), Quaternion(Vector3f(1, 0, 0), ToRadians(270)), 1.0f);
-	Entity* pointLight = new Entity(Vector3f(-1, 1.5, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1.0f);
+	Entity* mainLight = new Entity(Vector3f(0, 4, 0), Quaternion(Vector3f(1, 0, 0), ToRadians(270)), 1);
+	Entity* pointLight = new Entity(Vector3f(-1, 1.5, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
 
-	mainLight->AddModifier(new DirectionalLight(Vector3f(1, 1, 1), 0.4f, 10, 80.0f, 1.0f));
+	mainLight->AddModifier(new DirectionalLight(Vector3f(1, 1, 1), 0.4f, 10, 80, 1));
 	pointLight->AddModifier(new PointLight(Vector3f(0, 0, 1), 0.4f, Attenuation(0, 0, 1)));
-	pointLight->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(1, 0, 0), 0.015f, 1.0f));
+	pointLight->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(1, 0, 0), 0.015f, 1));
 	//pointLight->AddModifier(new FreeMove(5.0f));
 
 	AddToScene(mainLight);
 	//AddToScene(pointLight);
 
 	//Camera
-	Entity* mainCamera = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), 1), 1.0f);
+	Entity* mainCamera = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), 1), 1);
 
-	mainCamera->AddModifier(new CameraComponent(Matrix4f().InitPerspective(ToRadians(70.0f), window.GetAspect(), 0.1f, 1000.0f)));
+	mainCamera->AddModifier(new CameraComponent(Matrix4f().InitPerspective(ToRadians(70), window.GetAspect(), 0.1f, 1000)));
 	mainCamera->AddModifier(new FreeLook(window.GetCenter(), 0.15f));
 	mainCamera->AddModifier(new FreeMove(5.0f));
 
 	AddToScene(mainCamera);
 
 	//Environment
-	Entity* floorPlane = new Entity(Vector3f(0, 0, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1.0f);
+	Entity* floorPlane = new Entity(Vector3f(0, 0, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
 	Entity* floatingCube = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 0.3f);
 
 	floorPlane->AddModifier(new MeshRenderer(Mesh("plane.obj"), Material("bricks")));
 	floatingCube->AddModifier(new MeshRenderer(Mesh("cube.obj"), Material("bricks2")));
-	floatingCube->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(0, 1, 0), 0.01f, 2.0f));
-	floatingCube->AddModifier(new RepetitiveRotationalMotionModifier(Vector3f(0, 1, 0), 0.02f, 1.0f, false));
+	floatingCube->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(0, 1, 0), 0.01f, 2));
+	floatingCube->AddModifier(new RepetitiveRotationalMotionModifier(Vector3f(0, 1, 0), 0.02f, 1, false));
 
 	AddToScene(floorPlane);
 	AddToScene(floatingCube);
@@ -77,8 +77,8 @@ void TestGame::Init(const Window& window)
 	//Physics
 	PhysicsEngine physicsEngine;
 	
-	PhysicsObject sphere1 = PhysicsObject(new BoundingSphere(Vector3f(0, 0, 0), 1), Vector3f(0, 0, 1), "sphere1");
-	PhysicsObject sphere2 = PhysicsObject(new BoundingSphere(Vector3f(0, 0, 10), 1), Vector3f(0, 0, -1), "sphere2");
+	PhysicsObject sphere1 = PhysicsObject(new BoundingSphere(Vector3f(0, 0, 0), 1), Vector3f(0, 0, 1), Vector3f(0, 0, 1), "sphere1");
+	PhysicsObject sphere2 = PhysicsObject(new BoundingSphere(Vector3f(0, 0, 10), 1), Vector3f(0, 0, -1), Vector3f(0, 0, 0), "sphere2");
 
 	physicsEngine.AddObject(sphere1);
 	physicsEngine.AddObject(sphere2);
@@ -105,7 +105,7 @@ int main()
 	Testing::RunAllTests();
 
 	TestGame game;
-	Window window(800, 600, "3d game engine");
+	Window window(800, 600, "3D Game Engine");
 	RenderingEngine renderer(window);
 	
 	CoreEngine engine(60, &window, &renderer, &game);
