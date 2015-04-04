@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "coreEngine.h"
 #include "profiling.h"
+#include "physicsEngine.h"
 
 class Game
 {
@@ -20,15 +21,17 @@ public:
 	inline double DisplayUpdateTime(double dividend) { return m_updateTimer.DisplayAndReset("Update Time: ", dividend); }
 	
 	inline void SetEngine(CoreEngine* engine) { m_root.SetEngine(engine); }
+	inline void SetPhysicsEngine(const PhysicsEngine& engine) { m_physicsEngine = engine; }
 protected:
 	void AddToScene(Entity* child) { m_root.AddChild(child); }
 private:
 	Game(Game& game) {}
 	void operator=(Game& game) {}
 	
-	ProfileTimer m_updateTimer;
-	ProfileTimer m_inputTimer;
-	Entity       m_root;
+	ProfileTimer  m_updateTimer;
+	ProfileTimer  m_inputTimer;
+	Entity        m_root;
+	PhysicsEngine m_physicsEngine;
 };
 
 #endif

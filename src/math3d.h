@@ -2,6 +2,7 @@
 #define MATH3D_H_INCLUDED
 
 #include <math.h>
+#include <string>
 #define MATH_PI 3.1415926535897932384626433832795
 #define ToRadians(x) (float)(((x) * MATH_PI / 180.0f))
 #define ToDegrees(x) (float)(((x) * 180.0f / MATH_PI))
@@ -760,6 +761,11 @@ public:
 	inline void SetZ(float z) { (*this)[2] = z; }
 
 	inline void Set(float x, float y, float z) { (*this)[0] = x; (*this)[1] = y; (*this)[2] = z; }
+
+	std::string ToString()
+	{
+		return std::string("x = " + std::to_string((*this)[0]) + ", y = " + std::to_string((*this)[1]) + ", z = " + std::to_string((*this)[3]) + "\n");
+	}
 private:
 	//float x,y,z;
 };

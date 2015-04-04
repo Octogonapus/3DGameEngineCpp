@@ -2,14 +2,14 @@
 #include "testing.h"
 
 #include <string>
+#include <iostream>
 
 #include "freeLook.h"
 #include "freeMove.h"
 #include "repetitiveLinearMotionModifier.h"
 #include "repetitiveRotationalMotionModifier.h"
-#include "physicsEngineModifier.h"
-#include "physicsObjectModifier.h"
-#include "boundingSphere.h"
+#include "physicsEngine.h"
+#include "physicsObject.h"
 
 class TestGame : public Game
 {
@@ -75,29 +75,12 @@ void TestGame::Init(const Window& window)
 	AddToScene(floatingCube);
 
 	//Physics
-	PhysicsEngine physicsEngine;
-	
-	PhysicsObject sphere1 = PhysicsObject(new BoundingSphere(Vector3f(0, 0, 0), 1), Vector3f(0, 0, 1), Vector3f(0, 0, 1), "sphere1");
-	PhysicsObject sphere2 = PhysicsObject(new BoundingSphere(Vector3f(0, 0, 10), 1), Vector3f(0, 0, -1), Vector3f(0, 0, 0), "sphere2");
+	PhysicsEngine physicsEngine = PhysicsEngine();
 
-	physicsEngine.AddObject(sphere1);
-	physicsEngine.AddObject(sphere2);
+	PhysicsObject testObject = PhysicsObject(floorPlane, Collider(), Vector3f(0, 0, 0), Vector3f(0, 0, 0));
+	physicsEngine.AddObject(testObject);
 
-	PhysicsEngineModifier* physicsEngineModifier = new PhysicsEngineModifier(physicsEngine);
-	Entity* physicsEngineEntity = new Entity();
-	physicsEngineEntity->AddModifier(physicsEngineModifier);
-	AddToScene(physicsEngineEntity);
-
-	Entity* sphere1Entity = new Entity(Vector3f(0, 0, 0), Quaternion(), 1.0f);
-	sphere1Entity->AddModifier(new PhysicsObjectModifier(&physicsEngineModifier->GetPhysicsEngine().GetObject("sphere1")));
-	sphere1Entity->AddModifier(new MeshRenderer(Mesh("sphere.obj"), Material("bricks")));
-
-	Entity* sphere2Entity = new Entity(Vector3f(0, 0, 0), Quaternion(), 1.0f);
-	sphere2Entity->AddModifier(new PhysicsObjectModifier(&physicsEngineModifier->GetPhysicsEngine().GetObject("sphere2")));
-	sphere2Entity->AddModifier(new MeshRenderer(Mesh("sphere.obj"), Material("bricks")));
-
-	AddToScene(sphere1Entity);
-	AddToScene(sphere2Entity);
+	SetPhysicsEngine(physicsEngine);
 }
 
 int main()

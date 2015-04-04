@@ -1,8 +1,11 @@
 #ifndef COREENGINE_H_INCLUDED
 #define COREENGINE_H_INCLUDED
 
-#include "renderingEngine.h"
 #include <string>
+
+#include "renderingEngine.h"
+#include "physicsEngine.h"
+
 class Game;
 
 //This is the central part of the game engine. It's purpose is to manage interaction 
