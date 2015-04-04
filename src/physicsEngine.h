@@ -10,8 +10,11 @@ class PhysicsEngine
 public:
 	PhysicsEngine& operator=(const PhysicsEngine& x);
 
+	//Add an object to the engine
 	void AddObject(const PhysicsObject& object);
+	//Simulate all objects
 	void SimulateAll(float delta);
+	//Handle all collisions for all objects
 	void HandleCollisions();
 protected:
 private:
