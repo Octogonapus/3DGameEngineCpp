@@ -58,7 +58,7 @@ void TestGame::Init(const Window& window)
 
 	mainCamera->AddModifier(new CameraComponent(Matrix4f().InitPerspective(ToRadians(70), window.GetAspect(), 0.1f, 1000)));
 	mainCamera->AddModifier(new FreeLook(window.GetCenter(), 0.15f));
-	mainCamera->AddModifier(new FreeMove(15.0f));
+	mainCamera->AddModifier(new FreeMove(5.0f));
 
 	AddToScene(mainCamera);
 
@@ -66,7 +66,7 @@ void TestGame::Init(const Window& window)
 	Entity* floorPlane = new Entity(Vector3f(0, 0, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
 	Entity* floatingCube = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 0.3f);
 
-	floorPlane->AddModifier(new MeshRenderer(Mesh("cube.obj"), Material("bricks")));
+	floorPlane->AddModifier(new MeshRenderer(Mesh("plane.obj"), Material("bricks")));
 	floatingCube->AddModifier(new MeshRenderer(Mesh("cube.obj"), Material("bricks2")));
 	floatingCube->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(0, 1, 0), 0.01f, 2));
 	floatingCube->AddModifier(new RepetitiveRotationalMotionModifier(Vector3f(0, 1, 0), 0.02f, 1, false));
@@ -77,7 +77,7 @@ void TestGame::Init(const Window& window)
 	//Physics
 	PhysicsEngine physicsEngine = PhysicsEngine();
 
-	PhysicsObject testObject = PhysicsObject(floorPlane, Collider(), Vector3f(0, 5, 0), Vector3f(0, 0, 0), true);
+	PhysicsObject testObject = PhysicsObject(floorPlane, Collider(), Vector3f(0, 0, 0), Vector3f(0, 0, 0));
 	physicsEngine.AddObject(testObject);
 
 	SetPhysicsEngine(physicsEngine);
