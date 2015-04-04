@@ -1,17 +1,20 @@
 #ifndef PHYSICSOBJECT_H_INCLUDED
 #define PHYSICSOBJECT_H_INCLUDED
 
+#include <string>
+
 #include "math3d.h"
 #include "boundingSphere.h"
 
 class PhysicsObject
 {
 public:
-	PhysicsObject(Collider* collider, const Vector3f& velocity) :
+	PhysicsObject(Collider* collider, const Vector3f& velocity, const std::string name) :
 		m_position(collider->GetCenter()),
 		m_oldPosition(collider->GetCenter()),
 		m_velocity(velocity),
-		m_collider(collider) {}
+		m_collider(collider),
+		m_name(name) {}
 
 	PhysicsObject(const PhysicsObject& other);
 	PhysicsObject operator=(PhysicsObject other);
@@ -21,6 +24,7 @@ public:
 
 	inline const Vector3f& GetPosition() const { return m_position; }
 	inline const Vector3f& GetVelocity() const { return m_velocity; }
+	inline const std::string& GetName() const { return m_name; }
 
 	inline const Collider& GetCollider()
 	{
@@ -35,11 +39,13 @@ public:
 	static void Test();
 protected:
 private:
-	Vector3f m_position;
-	Vector3f m_oldPosition;
-	Vector3f m_velocity;
+	Vector3f    m_position;
+	Vector3f    m_oldPosition;
+	Vector3f    m_velocity;
 
-	Collider* m_collider;
+	Collider*   m_collider;
+
+	std::string m_name;
 };
 
 #endif

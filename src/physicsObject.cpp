@@ -6,7 +6,8 @@ PhysicsObject::PhysicsObject(const PhysicsObject& other) :
 	m_position(other.m_position),
 	m_oldPosition(other.m_oldPosition),
 	m_velocity(other.m_velocity),
-	m_collider(other.m_collider) { m_collider->AddReference(); }
+	m_collider(other.m_collider),
+	m_name (other.m_name) { m_collider->AddReference(); }
 
 PhysicsObject PhysicsObject::operator=(PhysicsObject other)
 {
@@ -32,7 +33,7 @@ void PhysicsObject::Integrate(float delta)
 
 void PhysicsObject::Test()
 {
-	PhysicsObject test(new BoundingSphere(Vector3f(0.0f, 1.0f, 0.0f), 1.0f), Vector3f(1.0f, 2.0f, 3.0f));
+	PhysicsObject test(new BoundingSphere(Vector3f(0.0f, 1.0f, 0.0f), 1.0f), Vector3f(1.0f, 2.0f, 3.0f), std::string("test object"));
 	
 	test.Integrate(20.0f);
 

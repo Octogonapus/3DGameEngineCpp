@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "physicsEngine.h"
 #include "boundingSphere.h"
 
@@ -34,4 +36,20 @@ void PhysicsEngine::HandleCollisions()
 			}
 		}
 	}
+}
+
+const PhysicsObject& PhysicsEngine::GetObject(const std::string& name) const
+{
+	for (int i = 0; i < m_objects.size(); i++)
+	{
+		if (m_objects[i].GetName().compare(name) == 0)
+		{
+			std::cout << "Match found for " << m_objects[i].GetName() << std::endl;
+			return m_objects[i];
+		}
+	}
+
+	std::cout << "No match found" << std::endl;
+
+	return PhysicsObject(new BoundingSphere(Vector3f(0, 0, 0), 0), Vector3f(0, 0, 0), "NULL");
 }
