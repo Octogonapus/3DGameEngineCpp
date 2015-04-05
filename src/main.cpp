@@ -10,6 +10,7 @@
 #include "repetitiveRotationalMotionModifier.h"
 #include "physicsEngine.h"
 #include "physicsObject.h"
+#include "boundingSphere.h"
 
 class TestGame : public Game
 {
@@ -54,31 +55,58 @@ void TestGame::Init(const Window& window)
 	//AddToScene(pointLight);
 
 	//Camera
-	Entity* mainCamera = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), 1), 1);
+	Entity* mainCamera = new Entity(Vector3f(-10, 5, 5), Quaternion(Vector3f(0, 0, 0), 0), 1);
 
 	mainCamera->AddModifier(new CameraComponent(Matrix4f().InitPerspective(ToRadians(70), window.GetAspect(), 0.1f, 1000)));
 	mainCamera->AddModifier(new FreeLook(window.GetCenter(), 0.15f));
-	mainCamera->AddModifier(new FreeMove(15.0f));
+	mainCamera->AddModifier(new FreeMove(15));
 
 	AddToScene(mainCamera);
 
 	//Environment
-	Entity* floorPlane = new Entity(Vector3f(0, 0, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
+	/*Entity* floorPlane = new Entity(Vector3f(0, 0, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
 	Entity* floatingCube = new Entity(Vector3f(0, 1, 0), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 0.3f);
 
-	floorPlane->AddModifier(new MeshRenderer(Mesh("cube.obj"), Material("bricks")));
+	floorPlane->AddModifier(new MeshRenderer(Mesh("plane.obj"), Material("bricks")));
 	floatingCube->AddModifier(new MeshRenderer(Mesh("cube.obj"), Material("bricks2")));
 	floatingCube->AddModifier(new RepetitiveLinearMotionModifier(Vector3f(0, 1, 0), 0.01f, 2));
 	floatingCube->AddModifier(new RepetitiveRotationalMotionModifier(Vector3f(0, 1, 0), 0.02f, 1, false));
 
 	AddToScene(floorPlane);
-	AddToScene(floatingCube);
+	AddToScene(floatingCube);*/
+
+	Entity* sphere1 = new Entity(Vector3f(0, 0, -4), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
+	Entity* sphere2 = new Entity(Vector3f(0, 0, 1), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
+	Entity* sphere3 = new Entity(Vector3f(0, 0, 3), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
+	Entity* sphere4 = new Entity(Vector3f(0, 0, 5), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
+	Entity* sphere5 = new Entity(Vector3f(0, 0, 7), Quaternion(Vector3f(0, 0, 0), ToRadians(0)), 1);
+
+	sphere1->AddModifier(new MeshRenderer(Mesh("sphere.obj"), Material("bricks")));
+	sphere2->AddModifier(new MeshRenderer(Mesh("sphere.obj"), Material("bricks2")));
+	sphere3->AddModifier(new MeshRenderer(Mesh("sphere.obj"), Material("bricks2")));
+	sphere4->AddModifier(new MeshRenderer(Mesh("sphere.obj"), Material("bricks2")));
+	sphere5->AddModifier(new MeshRenderer(Mesh("sphere.obj"), Material("bricks")));
+
+	AddToScene(sphere1);
+	AddToScene(sphere2);
+	AddToScene(sphere3);
+	AddToScene(sphere4);
+	AddToScene(sphere5);
 
 	//Physics
 	PhysicsEngine physicsEngine = PhysicsEngine();
 
-	PhysicsObject testObject = PhysicsObject(floorPlane, Collider(), Vector3f(0, 5, 0), Vector3f(0, 0, 0), true);
-	physicsEngine.AddObject(testObject);
+	PhysicsObject sphere1Rep = PhysicsObject(sphere1, new BoundingSphere(Vector3f(0, 0, -4), 1), Vector3f(0, 0, 1), Vector3f(0, 0, 0), false);
+	PhysicsObject sphere2Rep = PhysicsObject(sphere2, new BoundingSphere(Vector3f(0, 0, 1), 1), Vector3f(0, 0, 0), Vector3f(0, 0, 0), false);
+	PhysicsObject sphere3Rep = PhysicsObject(sphere3, new BoundingSphere(Vector3f(0, 0, 3), 1), Vector3f(0, 0, 0), Vector3f(0, 0, 0), false);
+	PhysicsObject sphere4Rep = PhysicsObject(sphere4, new BoundingSphere(Vector3f(0, 0, 5), 1), Vector3f(0, 0, 0), Vector3f(0, 0, 0), false);
+	PhysicsObject sphere5Rep = PhysicsObject(sphere5, new BoundingSphere(Vector3f(0, 0, 7), 1), Vector3f(0, 0, 0), Vector3f(0, 0, 0), false);
+
+	physicsEngine.AddObject(sphere1Rep);
+	physicsEngine.AddObject(sphere2Rep);
+	physicsEngine.AddObject(sphere3Rep);
+	physicsEngine.AddObject(sphere4Rep);
+	physicsEngine.AddObject(sphere5Rep);
 
 	SetPhysicsEngine(physicsEngine);
 }

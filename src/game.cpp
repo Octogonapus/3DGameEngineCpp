@@ -14,7 +14,7 @@ void Game::Update(float delta)
 	m_updateTimer.StartInvocation();
 	m_root.UpdateAll(delta);
 	m_physicsEngine.SimulateAll(delta);
-	//TODO: Handle collisions for all physics objects in the physics engine
+	m_physicsEngine.HandleCollisions();
 	m_updateTimer.StopInvocation();
 }
 
